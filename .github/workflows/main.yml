@@ -37,4 +37,7 @@ jobs:
         run: yarn run build
 
       - name: Step 6 - Deploy to gh-pages
-        run: yarn run deploy
+        run: |
+          git config --global user.email "kamionorato@gmail.com"
+          git config --global user.name "LadyKamille"
+          yarn run deploy
