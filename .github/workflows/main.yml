@@ -2,7 +2,8 @@ name: Build and deploy
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -35,8 +36,9 @@ jobs:
       - name: Step 5 - Build
         run: yarn run build
 
-      - name: Step 6 - Deploy
+      - name: Step 6 - Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./public
