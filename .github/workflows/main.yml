@@ -4,7 +4,7 @@ on: push
 
 jobs:
   run-linters:
-    name: Run eslint and tests
+    name: Run deploy tasks
     runs-on: ubuntu-latest
 
     steps:
@@ -31,4 +31,8 @@ jobs:
         run: yarn run build
 
       - name: Step 6 - Deploy App
-        run: yarn run deploy
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: public
