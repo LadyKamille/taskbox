@@ -1,19 +1,25 @@
-# .github/workflows/chromatic.yml
-# name of our action
-name: 'Chromatic Deployment'
-# the event that will trigger the action
+name: Lint
+
 on: push
 
-# what the action will do
 jobs:
-  test:
-    # the operating system it will run on
+  run-linters:
+    name: Run linter and tests
     runs-on: ubuntu-latest
-    # the list of steps that the action will go through
+
     steps:
-      - uses: actions/checkout@v1
-      - run: yarn
-      - uses: chromaui/action@v1
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      # ESLint and Prettier must be in `package.json`
+      - name: Install modules
+        run: yarn
+
+      - name: Run linters
+        run: eslint . --fix
+
+      - name: Build Chromatic
+        uses: chromaui/action@v1
         # options required to the GitHub chromatic action
         with:
           # our project token, to see how to obtain it
