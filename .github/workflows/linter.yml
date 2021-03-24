@@ -12,10 +12,8 @@ jobs:
         uses: actions/checkout@v1
 
       # ESLint and Prettier must be in `package.json`
+      - name: Install modules
       - run: yarn
 
       - name: Run linters
-        uses: wearerequired/lint-action@v1
-        with:
-          eslint: true
-          prettier: true
+      - run: eslint . --fix
