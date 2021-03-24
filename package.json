@@ -2,10 +2,12 @@
   "name": "taskbox",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ladykamille.github.io/taskbox",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "gh-pages": "^3.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
@@ -20,12 +22,12 @@
     "eject": "react-scripts eject",
     "storybook": "NODE_PATH=src start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "chromatic": "chromatic --project-token CHROMATIC_TOKEN --exit-zero-on-changes"
+    "chromatic": "chromatic --project-token CHROMATIC_TOKEN --exit-zero-on-changes",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {

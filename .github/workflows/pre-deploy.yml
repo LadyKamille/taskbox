@@ -1,0 +1,28 @@
+name: Build
+
+on: push
+
+jobs:
+  run-predeploy:
+    name: Run pre-deploy tasks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Check out Git repository
+        uses: actions/checkout@v1
+
+      # ESLint and Prettier must be in `package.json`
+      - name: Step 2 - Install modules
+        run: yarn
+
+      - name: Step 3 - Run eslint
+        run: yarn run eslint .
+
+      - name: Step 4 - Build Chromatic
+        uses: chromaui/action@v1
+        # options required to the GitHub chromatic action
+        with:
+          # our project token, to see how to obtain it
+          # refer to https://www.learnstorybook.com/intro-to-storybook/react/en/deploy/
+          projectToken: ${{ secrets.CHROMATIC_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
