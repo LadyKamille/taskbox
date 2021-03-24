@@ -1,4 +1,4 @@
-name: Lint
+name: Build
 
 on: push
 
@@ -8,17 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out Git repository
+      - name: Step 1 - Check out Git repository
         uses: actions/checkout@v1
 
       # ESLint and Prettier must be in `package.json`
-      - name: Install modules
+      - name: Step 2 - Install modules
         run: yarn
 
-      - name: Run linters
-        run: eslint . --fix
+      - name: Step 3 - Run linters
+        run: yarn run eslint . --fix
 
-      - name: Build Chromatic
+      - name: Step 4 - Build Chromatic
         uses: chromaui/action@v1
         # options required to the GitHub chromatic action
         with:
