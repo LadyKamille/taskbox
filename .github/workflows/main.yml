@@ -1,10 +1,15 @@
-name: Build
+name: Build and deploy
 
-on: push
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  run-predeploy:
-    name: Run pre-deploy tasks
+  run-deply-tasks:
+    name: Run deploy tasks
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +31,12 @@ jobs:
           # refer to https://www.learnstorybook.com/intro-to-storybook/react/en/deploy/
           projectToken: ${{ secrets.CHROMATIC_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Step 5 - Build
+        run: yarn run build
+
+      - name: Step 6 - Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
