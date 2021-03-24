@@ -1,10 +1,10 @@
-name: Build and Deploy
+name: Build
 
 on: push
 
 jobs:
-  run-linters:
-    name: Run deploy tasks
+  run-predeploy:
+    name: Run pre-deploy tasks
     runs-on: ubuntu-latest
 
     steps:
@@ -26,13 +26,3 @@ jobs:
           # refer to https://www.learnstorybook.com/intro-to-storybook/react/en/deploy/
           projectToken: ${{ secrets.CHROMATIC_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Step 5 - Build App
-        run: yarn run build
-
-      - name: Step 6 - Deploy App
-        if: success()
-        uses: JamesIves/github-pages-deploy-action@4.1.0
-        with:
-          branch: gh-pages
-          folder: public
