@@ -1,4 +1,4 @@
-name: Build
+name: Build and Deploy
 
 on: push
 
@@ -27,5 +27,8 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Step 5 - Deploy App
+      - name: Step 5 - Build App
+        run: yarn run build
+
+      - name: Step 6 - Deploy App
         run: yarn run deploy
