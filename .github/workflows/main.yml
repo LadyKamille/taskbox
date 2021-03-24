@@ -16,7 +16,7 @@ jobs:
         run: yarn
 
       - name: Step 3 - Run linters
-        run: yarn run eslint . --fix
+        run: yarn run eslint .
 
       - name: Step 4 - Build Chromatic
         uses: chromaui/action@v1
