@@ -1,4 +1,4 @@
-name: Setup
+name: Build, test, and deploy
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   setup:
-    name: Checkout repo and install dependencies
+    name: Setup
     runs-on: ubuntu-latest
 
     steps:
@@ -20,3 +20,61 @@ jobs:
       # ESLint and Prettier must be in `package.json`
       - name: Install modules
         run: yarn
+
+  lint:
+    needs: setup
+    name: Run eslint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lint
+        run: yarn run eslint .
+
+  test:
+    needs: setup
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test
+        run: yarn run tests
+
+  build:
+    needs:
+      - test
+      - lint
+    name: Deploy to gh-pages and chromatic
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 5 - Build
+        run: yarn run build
+
+  deploy-chromatic:
+    needs:
+      - test
+      - lint
+    name: Deploy Chromatic
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Chromatic
+        uses: chromaui/action@v1
+        # options required to the GitHub chromatic action
+        with:
+          # our project token, to see how to obtain it
+          # refer to https://www.learnstorybook.com/intro-to-storybook/react/en/deploy/
+          projectToken: ${{ secrets.CHROMATIC_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-pages:
+    needs: build
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to gh-pages
+        run: |
+          git config --global user.email "kamionorato@gmail.com"
+          git config --global user.name "LadyKamille"
+          yarn run deploy
