@@ -68,7 +68,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-pages:
-    needs: build
+    needs:
+      - test
+      - lint
+      - build
     name: Build
     runs-on: ubuntu-latest
 
